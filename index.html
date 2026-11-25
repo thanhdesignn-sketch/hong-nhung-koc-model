@@ -254,7 +254,7 @@ input[type=range]{width:100%;accent-color:var(--acc);height:28px}
 
 
 /* ===== PRELOADER (demo 2 kiểu) + chữ trang chủ trồi lên khi màn lướt lên ===== */
-html.pre-lock{overflow:hidden}
+html.pre-lock,html.rising{overflow:hidden}
 .pre{position:fixed;inset:0;z-index:300;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(16px,3vw,32px);overflow:hidden;clip-path:inset(0 0 0 0);font-family:Inter,system-ui,sans-serif}
 .pre.out{clip-path:inset(0 0 100% 0);transition:clip-path 1.05s cubic-bezier(.77,0,.18,1)}
 .pre-top{display:flex;justify-content:space-between;gap:16px;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;animation:preIn .8s .1s both cubic-bezier(.2,.8,.2,1)}
@@ -611,7 +611,7 @@ addEventListener("resize",sizeMeta);if(document.fonts)document.fonts.ready.then(
 addEventListener("hashchange",()=>setGroup(location.hash.slice(1)));
 const hdr=document.querySelector("header");
 const hdrRO=new ResizeObserver(()=>document.documentElement.style.setProperty("--hdH",hdr.offsetHeight+"px"));hdrRO.observe(hdr);
-let booted=false;const boot=()=>{if(booted)return;booted=true;document.body.classList.add("rise");setTimeout(()=>document.body.classList.remove("rise"),2400);setGroup(location.hash.slice(1));sizeMeta();requestAnimationFrame(loop)};
+let booted=false;const boot=()=>{if(booted)return;booted=true;const R=document.documentElement;document.body.classList.add("rise");R.classList.add("rising");setTimeout(()=>{document.body.classList.remove("rise");R.classList.remove("rising")},2400);setGroup(location.hash.slice(1));sizeMeta();requestAnimationFrame(loop)};
 if(window.__pre){window.__pre.boot=boot;if(window.__pre.go)boot()}else boot();
 
 
