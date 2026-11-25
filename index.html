@@ -252,9 +252,89 @@ input[type=range]{width:100%;accent-color:var(--acc);height:28px}
 @media(max-width:600px){.mdl{place-items:end center;padding:12px 12px calc(12px + env(safe-area-inset-bottom))}.mdl-card{border-radius:28px}}
 @media(prefers-reduced-motion:reduce){.mdl-card,.mdl-bg{animation:none!important}}
 
+
+/* ===== PRELOADER (demo 2 kiểu) + chữ trang chủ trồi lên khi màn lướt lên ===== */
+html.pre-lock{overflow:hidden}
+.pre{position:fixed;inset:0;z-index:300;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(16px,3vw,32px);overflow:hidden;clip-path:inset(0 0 0 0);font-family:Inter,system-ui,sans-serif}
+.pre.out{clip-path:inset(0 0 100% 0);transition:clip-path 1.05s cubic-bezier(.77,0,.18,1)}
+.pre-top{display:flex;justify-content:space-between;gap:16px;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;animation:preIn .8s .1s both cubic-bezier(.2,.8,.2,1)}
+.pre-top b{font-weight:600}
+@keyframes preIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes prePlate{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+/* kiểu 2 — chữ lớn đổ màu */
+.pre-b{background:radial-gradient(120% 75% at 50% 118%,rgb(254 44 85/.42),rgb(254 44 85/.1) 45%,transparent 70%),#0f0e0d;color:#f6f2ec}
+.pb-mid{display:grid;align-content:center;min-height:0}
+.pb-name{margin:0;font:800 min(25vw,33svh)/.86 Archivo,sans-serif;font-stretch:72%;text-transform:uppercase;letter-spacing:-.015em;display:grid;justify-items:start}
+.pb-l{display:block;white-space:nowrap}
+.pb-c{display:inline-block;overflow:hidden;padding:.32em .012em .06em;margin:-.32em -.012em -.06em}
+.pb-c i{display:inline-block;font-style:normal;padding:.3em .025em .08em;margin:-.3em -.025em -.08em;transform:translateY(118%);animation:pbUp .95s var(--d,0s) cubic-bezier(.2,.85,.2,1) forwards;
+  color:transparent;background:linear-gradient(to top,#fe2c55 calc(var(--p,0)*100%),rgb(254 44 85/.16) calc(var(--p,0)*100%));-webkit-background-clip:text;background-clip:text}
+@keyframes pbUp{to{transform:none}}
+.pre-b .pre-top{color:rgb(246 242 236/.85)}
+.pre-b .pre-bot{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(12px,2.4vw,32px);animation:preIn .8s .3s both cubic-bezier(.2,.8,.2,1)}
+.pb-n{margin:0;text-align:right;min-width:2.9em;font:800 clamp(28px,4vw,48px)/1 Archivo,sans-serif;font-stretch:72%;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.pb-n small{font:500 .45em/1 Inter,sans-serif;margin-left:.2em;opacity:.75}
+.pb-line{position:relative;height:2px;background:rgb(246 242 236/.18);overflow:hidden}
+.pb-line i{position:absolute;inset:0;background:#fe2c55;box-shadow:0 0 12px rgb(254 44 85/.8);transform-origin:0 50%;transform:scaleX(var(--p,0))}
+.pre-b .pre-cap{margin:0;color:rgb(246 242 236/.85)}
+.pre-b.out .pb-name{transform:translateY(-14%);transition:transform 1.05s cubic-bezier(.77,0,.18,1)}
+@media(max-width:600px){.pb-mid{position:absolute;inset:0;display:grid;place-content:center;pointer-events:none}.pb-name{justify-items:center;text-align:center}.pre-b .pre-top,.pre-b .pre-bot{position:relative;z-index:1}.pre-b .pre-top{grid-row:1}.pre-b .pre-bot{grid-row:3}.pre-top span:last-child{display:none}.pre-cap{display:none}.pre-b .pre-bot{grid-template-columns:1fr auto}.pb-name{font-size:min(23vw,26svh)}}
+@media(prefers-reduced-motion:reduce){.pre *{animation:none!important}.pb-c i{transform:none}.pre.out{clip-path:none;opacity:0;transition:opacity .4s}.pre-b.out .pb-name{transform:none;transition:none}}
+/* chữ + khối nội dung trang chủ trồi lên, lệch nhịp nhau */
+@keyframes riseUp{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+@keyframes riseDown{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes riseSoft{from{opacity:0;transform:translateY(26px) scale(.985)}to{opacity:1;transform:none}}
+body.rise header>*{animation:riseDown .8s var(--rd,.05s) cubic-bezier(.2,.8,.2,1) backwards}
+body.rise header>:nth-child(2){--rd:.12s}body.rise header>:nth-child(3){--rd:.2s}
+body.rise .stage{animation:riseSoft 1s .08s cubic-bezier(.2,.8,.2,1) backwards}
+body.rise .nextp{animation:riseUp .9s .3s cubic-bezier(.2,.8,.2,1) backwards}
+body.rise .cap{animation:riseUp .9s .4s cubic-bezier(.2,.8,.2,1) backwards}
+body.rise .meta{animation:riseUp .9s .5s cubic-bezier(.2,.8,.2,1) backwards}
+body.rise .nav{animation:riseUp .9s .6s cubic-bezier(.2,.8,.2,1) backwards}
+body.rise .rib,body.rise .ribbon{animation:riseUp 1s .55s cubic-bezier(.2,.8,.2,1) backwards}
+@media(prefers-reduced-motion:reduce){body.rise *{animation:none!important}}
 </style>
 </head>
 <body>
+<div class="pre pre-b" id="preB" aria-hidden="true">
+  <div class="pre-top"><span><b>Model · KOC</b></span><span>Host livestream</span></div>
+  <div class="pb-mid"><h2 class="pb-name"><span class="pb-l"><span class="pb-c"><i style="--d:0.10s">H</i></span><span class="pb-c"><i style="--d:0.16s">Ồ</i></span><span class="pb-c"><i style="--d:0.22s">N</i></span><span class="pb-c"><i style="--d:0.28s">G</i></span></span><span class="pb-l"><span class="pb-c"><i style="--d:0.40s">N</i></span><span class="pb-c"><i style="--d:0.46s">H</i></span><span class="pb-c"><i style="--d:0.52s">U</i></span><span class="pb-c"><i style="--d:0.58s">N</i></span><span class="pb-c"><i style="--d:0.64s">G</i></span></span></h2></div>
+  <div class="pre-bot"><p class="pre-cap">Đang tải trang</p><div class="pb-line"><i></i></div><p class="pb-n"><span class="num">000</span><small>%</small></p></div>
+</div>
+<noscript><style>.pre{display:none}html.pre-lock{overflow:auto}</style></noscript>
+<script>
+(function(){
+  var pre=document.getElementById("preB");if(!pre)return;pre.id="pre";
+  var P=window.__pre={go:false,boot:null},root=document.documentElement;
+  var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  root.classList.add("pre-lock");
+  var nEl=pre.querySelector(".num"),lit=pre.querySelector(".lit"),t0=performance.now();
+  var ready=false,shown=0,ended=false,MIN=reduce?500:2200;
+  var imgP=new Promise(function(r){if(!lit||lit.complete)r();else{lit.onload=lit.onerror=function(){r()}}});
+  var fontP=document.fonts?Promise.race([document.fonts.ready,new Promise(function(r){setTimeout(r,2500)})]):Promise.resolve();
+  Promise.all([imgP,fontP]).then(function(){ready=true});
+  setTimeout(function(){ready=true},6000);
+  function set(p){pre.style.setProperty("--p",p.toFixed(4));nEl.textContent=String(Math.round(p*100)).padStart(3,"0")}
+  function end(){if(ended)return;ended=true;pre.remove();root.classList.remove("pre-lock");document.dispatchEvent(new Event("preloaded"))}
+  function finish(){
+    pre.classList.add("done");
+    setTimeout(function(){
+      pre.classList.add("out");
+      setTimeout(function(){P.go=true;if(P.boot)P.boot()},reduce?0:80);
+      pre.addEventListener("transitionend",function(e){if(e.target===pre)end()});
+      setTimeout(end,1700);
+    },reduce?60:360);
+  }
+  function frame(now){
+    var el=now-t0,target=Math.min(Math.min(1,el/MIN),ready?1:.88);
+    shown+=(target-shown)*.14;if(target-shown<.004)shown=target;
+    set(shown);
+    if(shown>=1){finish();return}
+    requestAnimationFrame(frame);
+  }
+  set(0);requestAnimationFrame(frame);
+})();
+</script>
 <div class="app" id="app">
   <header>
     <div><b>Hồng Nhung</b><span class="sub"> · Model · KOC · Host livestream</span></div>
@@ -531,7 +611,9 @@ addEventListener("resize",sizeMeta);if(document.fonts)document.fonts.ready.then(
 addEventListener("hashchange",()=>setGroup(location.hash.slice(1)));
 const hdr=document.querySelector("header");
 const hdrRO=new ResizeObserver(()=>document.documentElement.style.setProperty("--hdH",hdr.offsetHeight+"px"));hdrRO.observe(hdr);
-setGroup(location.hash.slice(1));sizeMeta();requestAnimationFrame(loop);
+let booted=false;const boot=()=>{if(booted)return;booted=true;document.body.classList.add("rise");setTimeout(()=>document.body.classList.remove("rise"),2400);setGroup(location.hash.slice(1));sizeMeta();requestAnimationFrame(loop)};
+if(window.__pre){window.__pre.boot=boot;if(window.__pre.go)boot()}else boot();
+
 
 /* ===== Liên hệ: điền link/handle thật vào đây. Mục để trống sẽ hiện "Đang cập nhật". ===== */
 const contacts=[
